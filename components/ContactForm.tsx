@@ -22,8 +22,7 @@ const initialState: FormState = {
   message: "",
 };
 
-const fieldClass =
-  "w-full rounded-lg border border-ink/12 bg-white px-4 py-2.5 text-[15px] text-ink outline-none transition-colors placeholder:text-muted/60 focus:border-yellow focus:ring-2 focus:ring-yellow/25";
+const fieldClass = "field";
 
 /** Matches real field heights so SSR → hydration stays identical, sidestepping
  *  autofill-extension hydration mismatches (same approach as RequestForm). */
@@ -31,15 +30,15 @@ function FieldsSkeleton() {
   return (
     <div className="mt-6 grid gap-4" aria-hidden="true">
       <div className="grid gap-4 sm:grid-cols-2">
-        <div className="h-[46px] rounded-lg bg-ink/[0.06]" />
-        <div className="h-[46px] rounded-lg bg-ink/[0.06]" />
+        <div className="h-[50px] rounded-xl bg-ink/[0.06]" />
+        <div className="h-[50px] rounded-xl bg-ink/[0.06]" />
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
-        <div className="h-[46px] rounded-lg bg-ink/[0.06]" />
-        <div className="h-[46px] rounded-lg bg-ink/[0.06]" />
+        <div className="h-[50px] rounded-xl bg-ink/[0.06]" />
+        <div className="h-[50px] rounded-xl bg-ink/[0.06]" />
       </div>
-      <div className="h-[46px] rounded-lg bg-ink/[0.06]" />
-      <div className="h-[120px] rounded-lg bg-ink/[0.06]" />
+      <div className="h-[50px] rounded-xl bg-ink/[0.06]" />
+      <div className="h-[120px] rounded-xl bg-ink/[0.06]" />
       <div className="h-[50px] rounded-lg bg-ink/10" />
     </div>
   );

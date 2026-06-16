@@ -23,8 +23,7 @@ const initialState: FormState = {
   preferredDate: "",
 };
 
-const fieldClass =
-  "w-full rounded-lg border border-ink/12 bg-white px-4 py-2.5 text-[15px] text-ink outline-none transition-colors placeholder:text-muted/60 focus:border-yellow focus:ring-2 focus:ring-yellow/25";
+const fieldClass = "field";
 
 /** Skeleton shown during SSR / first paint — matches the real field heights so
  *  there's no layout shift, and keeps server + client markup identical (which
@@ -34,7 +33,7 @@ function FieldsSkeleton() {
   return (
     <div className="mt-5 flex flex-col gap-3" aria-hidden="true">
       {Array.from({ length: 5 }).map((_, i) => (
-        <div key={i} className="h-[46px] rounded-lg bg-ink/[0.06]" />
+        <div key={i} className="h-[50px] rounded-xl bg-ink/[0.06]" />
       ))}
       <div className="mt-1 h-[46px] rounded-lg bg-ink/10" />
     </div>
