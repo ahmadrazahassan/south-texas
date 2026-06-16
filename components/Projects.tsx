@@ -72,7 +72,7 @@ export default function Projects() {
               sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/50 to-black/20" />
+            <div className="absolute inset-0 bg-black/55" />
             <div className="relative">
               <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-yellow">
                 <HomeIcon size={24} className="text-ink" />

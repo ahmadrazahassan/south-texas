@@ -20,7 +20,7 @@ export default function Hero() {
       />
 
       {/* Overlay — keeps the roof visible while the white text stays legible */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/35 to-black/55" />
+      <div className="absolute inset-0 bg-black/50" />
 
       {/* Content */}
       <div className="container-x relative z-10 flex min-h-[100svh] flex-col">

@@ -68,12 +68,9 @@ export default function ServicesSlider() {
                     />
                     {/* Dark wash — stronger when collapsed for legibility */}
                     <div
-                      className="absolute inset-0 transition-opacity duration-700"
-                      style={{
-                        background: isActive
-                          ? "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.25) 55%, rgba(0,0,0,0.15) 100%)"
-                          : "linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.55) 100%)",
-                      }}
+                      className={`absolute inset-0 transition-colors duration-700 ${
+                        isActive ? "bg-black/45" : "bg-black/65"
+                      }`}
                     />
 
                     {/* Activation layer — hover / focus / click expands the panel */}

@@ -17,7 +17,7 @@ export default function MidCta() {
               sizes="100vw"
               className="object-cover opacity-60"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/40" />
+            <div className="absolute inset-0 bg-black/60" />
 
             <div className="relative z-10 px-6 py-16 sm:px-12 sm:py-20 lg:px-16 lg:py-24">
               <div className="max-w-2xl">

@@ -49,7 +49,7 @@ export default function Materials() {
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-transparent" />
+                    <div className="absolute inset-0 bg-black/30" />
                     {/* Tag chip */}
                     <span className="absolute left-4 top-4 rounded-full bg-yellow px-3.5 py-1.5 text-xs font-semibold text-ink">
                       {m.tag}

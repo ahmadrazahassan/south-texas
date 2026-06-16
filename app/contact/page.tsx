@@ -20,14 +20,6 @@ export default function ContactPage() {
       <main>
         {/* Hero */}
         <section className="on-dark relative isolate overflow-hidden rounded-b-[2.5rem] bg-black md:rounded-b-[3.5rem]">
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background:
-                "radial-gradient(60% 60% at 50% 0%, rgba(255,106,28,0.18), transparent 70%)",
-            }}
-          />
           <div className="container-x relative z-10 pb-16 pt-32">
             <nav aria-label="Breadcrumb" className="mb-6 text-sm text-white/70">
               <ol className="flex flex-wrap items-center gap-2">
