@@ -2,12 +2,26 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { navLinks, business, images } from "@/lib/site-config";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+
+  /**
+   * A link is "active" only when it targets a real route matching the current
+   * page. Homepage section anchors (e.g. "/#about") all resolve to "/", so we
+   * don't persistently highlight them — that avoids the old bug where "Home"
+   * was always highlighted, even on /services.
+   */
+  const isActive = (href: string) => {
+    if (href.includes("#")) return false;
+    const route = href.split("#")[0] || "/";
+    return pathname === route || pathname.startsWith(`${route}/`);
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -63,12 +77,13 @@ export default function Header() {
           aria-label="Primary"
           className="hidden items-center gap-8 md:flex"
         >
-          {navLinks.map((link, i) => (
+          {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
+              aria-current={isActive(link.href) ? "page" : undefined}
               className={`text-[15px] font-medium transition-opacity hover:opacity-70 ${
-                i === 0
+                isActive(link.href)
                   ? "text-yellow"
                   : solid
                     ? "text-ink"
@@ -83,11 +98,14 @@ export default function Header() {
         {/* Right: contact pill (desktop) + hamburger (mobile) */}
         <div className="flex items-center gap-3">
           <a
-            href="/#contact"
+            href="/contact"
+            aria-current={isActive("/contact") ? "page" : undefined}
             className={`hidden rounded-lg px-6 py-2.5 text-[15px] font-medium transition-colors md:inline-flex ${
-              solid
-                ? "border border-ink/25 text-ink hover:bg-ink hover:text-white"
-                : "border border-white/40 text-white hover:bg-white hover:text-ink"
+              isActive("/contact")
+                ? "bg-yellow text-ink hover:bg-yellow-dark"
+                : solid
+                  ? "border border-ink/25 text-ink hover:bg-ink hover:text-white"
+                  : "border border-white/40 text-white hover:bg-white hover:text-ink"
             }`}
           >
             Contact
@@ -119,14 +137,17 @@ export default function Header() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="border-b border-ink/10 py-4 text-2xl font-medium text-ink"
+                aria-current={isActive(link.href) ? "page" : undefined}
+                className={`border-b border-ink/10 py-4 text-2xl font-medium ${
+                  isActive(link.href) ? "text-yellow" : "text-ink"
+                }`}
               >
                 {link.label}
               </a>
             ))}
           </nav>
           <a
-            href="/#contact"
+            href="/contact"
             onClick={() => setOpen(false)}
             className="btn-primary mt-6 w-full"
           >

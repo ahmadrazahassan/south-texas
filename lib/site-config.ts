@@ -129,7 +129,7 @@ export const footerNav = {
   company: [
     { label: "Materials", href: "/#materials" },
     { label: "Service Areas", href: "/#footer" },
-    { label: "Contact", href: "/#contact" },
+    { label: "Contact", href: "/contact" },
   ],
   legal: [
     { label: "Privacy Policy", href: "#" },
@@ -440,6 +440,22 @@ export const finalCta = {
   heading: "High-quality roofing, delivered with precision",
   subtext: "Talk to our specialists and get a clear project plan within 24 hours.",
   cta: "Speak With an Expert",
+} as const;
+
+/* -------------------------------------------------------------------------- */
+/*  Contact                                                                   */
+/* -------------------------------------------------------------------------- */
+
+export const contact = {
+  eyebrow: "Contact",
+  heading: "Get your free roofing estimate",
+  subtext:
+    "Tell us about your project and our team will get back to you within 24 hours with honest advice and a clear plan.",
+  formTitle: "Send us a message",
+  formCta: "Send Message",
+  /** Google Maps embed for the business address (no API key required). */
+  mapEmbedSrc:
+    "https://www.google.com/maps?q=2606+Business+Hwy+83+E,+Weslaco,+TX+78596&output=embed",
 } as const;
 
 /* -------------------------------------------------------------------------- */

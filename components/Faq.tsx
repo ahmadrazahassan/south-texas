@@ -10,10 +10,7 @@ export default function Faq() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section
-      id="contact"
-      className="section-y relative isolate overflow-hidden bg-bg"
-    >
+    <section className="section-y relative isolate overflow-hidden bg-bg">
       {/* Faded roof background image */}
       <Image
         src={images.faqRoof}
@@ -37,7 +34,7 @@ export default function Faq() {
             Still have questions? We&apos;re happy to walk you through anything
             before you commit.
           </p>
-          <a href="#footer" className="btn-primary mt-8">
+          <a href="#contact" className="btn-primary mt-8">
             {faq.cta}
             <ArrowRight size={18} />
           </a>

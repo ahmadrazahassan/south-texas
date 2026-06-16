@@ -8,6 +8,7 @@ import Materials from "@/components/Materials";
 import MidCta from "@/components/MidCta";
 import Testimonials from "@/components/Testimonials";
 import Faq from "@/components/Faq";
+import Contact from "@/components/Contact";
 import FinalCta from "@/components/FinalCta";
 import Footer from "@/components/Footer";
 
@@ -25,6 +26,7 @@ export default function HomePage() {
         <MidCta />
         <Testimonials />
         <Faq />
+        <Contact />
         <FinalCta />
       </main>
       <Footer />
