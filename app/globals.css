@@ -1,0 +1,368 @@
+@import "tailwindcss";
+
+/* -------------------------------------------------------------------------- */
+/*  Design tokens — South Texas Roofing                                       */
+/* -------------------------------------------------------------------------- */
+
+@theme {
+  --color-yellow: #ff6a1c;
+  --color-yellow-dark: #e2560f;
+  --color-ink: #1c1c1c;
+  --color-black: #0b0b0b;
+  --color-muted: #6e6e6e;
+  --color-bg: #fafaf8;
+  --color-card: #f1f1ef;
+  --color-white: #ffffff;
+
+  --font-sans: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 20px;
+  --radius-media: 16px;
+
+  /* Fluid type scale */
+  --text-display: clamp(80px, 14vw, 240px);
+  --text-h1: clamp(44px, 6.5vw, 96px);
+  --text-section: clamp(34px, 5vw, 64px);
+
+  --spacing-section: clamp(64px, 9vw, 140px);
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Base                                                                      */
+/* -------------------------------------------------------------------------- */
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* Accessible focus ring for keyboard users */
+:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+.on-dark :focus-visible,
+.on-dark:focus-visible {
+  outline-color: var(--color-yellow);
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Reusable component utilities                                              */
+/* -------------------------------------------------------------------------- */
+
+.container-x {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: clamp(20px, 5vw, 48px);
+}
+
+.section-y {
+  padding-block: var(--spacing-section);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--color-ink);
+}
+
+.eyebrow::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: var(--color-yellow);
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--color-yellow);
+  color: var(--color-ink);
+  font-weight: 600;
+  padding: 16px 28px;
+  border-radius: 8px;
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+.btn-primary:hover {
+  background: var(--color-yellow-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -12px rgba(0, 0, 0, 0.35);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: transparent;
+  color: var(--color-white);
+  font-weight: 500;
+  padding: 14px 26px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  transition: background 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
+}
+.btn-outline:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+.pill {
+  border-radius: 9999px;
+  border: 1px solid rgba(28, 28, 28, 0.25);
+  padding: 10px 22px;
+  font-weight: 500;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.pill:hover {
+  background: var(--color-ink);
+  color: var(--color-white);
+  border-color: var(--color-ink);
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Animated gradient border (hero card + hero buttons)                       */
+/* -------------------------------------------------------------------------- */
+
+/* Registering the angle lets it interpolate, so the sweep is buttery smooth. */
+@property --gb-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.glow-border {
+  --gb-size: 1.5px; /* ring thickness — thin & minimal */
+  --gb-duration: 6s; /* one full rotation — slow & elegant */
+  --gb-c1: #e7e1b1; /* comet tail (pale gold) */
+  --gb-c2: #fbf8e6; /* comet head highlight */
+  --gb-base: color-mix(in srgb, #e7e1b1 40%, transparent); /* steady ring */
+  position: relative;
+  isolation: isolate;
+}
+
+.glow-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: var(--gb-size);
+  background: conic-gradient(
+    from var(--gb-angle),
+    var(--gb-base) 0deg,
+    var(--gb-base) 140deg,
+    var(--gb-c1) 192deg,
+    var(--gb-c2) 214deg,
+    var(--gb-c1) 236deg,
+    var(--gb-base) 300deg,
+    var(--gb-base) 360deg
+  );
+  /* Clip the fill to just the padding ring → a perfectly rounded border. */
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: gb-rotate var(--gb-duration) linear infinite;
+  pointer-events: none;
+  z-index: 1; /* keep the ring above fill images / backgrounds */
+}
+
+/* Faster, brighter cream sweep for the solid buttons. */
+.glow-border--btn {
+  --gb-size: 2px;
+  --gb-duration: 3.6s;
+  --gb-c1: #e7e1b1;
+  --gb-c2: #fbf8e6;
+  --gb-base: color-mix(in srgb, #e7e1b1 55%, transparent);
+}
+
+/* Premium gold ↔ silver metallic ring for the project cards. */
+.glow-border--metal {
+  --gb-size: 2px;
+  --gb-duration: 7s;
+}
+.glow-border--metal::before {
+  background: conic-gradient(
+    from var(--gb-angle),
+    #b9b37e 0deg,
+    #e7e1b1 14%,
+    #fdfbef 26%,
+    #e7e1b1 38%,
+    #cfc88f 50%,
+    #e7e1b1 62%,
+    #fdfbef 74%,
+    #e7e1b1 86%,
+    #b9b37e 100%
+  );
+}
+
+@keyframes gb-rotate {
+  to {
+    --gb-angle: 360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glow-border::before {
+    animation: none;
+  }
+}
+
+/* Giant ghost background lettering behind sections */
+.ghost-word {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: var(--text-display);
+  line-height: 0.8;
+  letter-spacing: -0.02em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(28, 28, 28, 0.06);
+  user-select: none;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .marquee-track,
+  .marquee-row__track,
+  .marquee-col__track {
+    animation: none !important;
+  }
+}
+
+/* Giant marquee word (hero + footer) */
+.marquee-outline {
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.35);
+}
+.marquee-mask {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 12%,
+    #000 88%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 12%,
+    #000 88%,
+    transparent
+  );
+}
+
+/* Cute soft-blur fade at each end of the marquee */
+.marquee-edge {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: clamp(64px, 14vw, 220px);
+  pointer-events: none;
+  z-index: 2;
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+}
+.marquee-edge--left {
+  left: 0;
+  -webkit-mask-image: linear-gradient(to right, #000 35%, transparent);
+  mask-image: linear-gradient(to right, #000 35%, transparent);
+}
+.marquee-edge--right {
+  right: 0;
+  -webkit-mask-image: linear-gradient(to left, #000 35%, transparent);
+  mask-image: linear-gradient(to left, #000 35%, transparent);
+}
+
+/* Reviews marquee rows */
+@keyframes marquee-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-row__track {
+  width: max-content;
+  display: flex;
+  gap: 1.25rem;
+  animation: marquee-x linear infinite;
+}
+.marquee-row__track--reverse {
+  animation-direction: reverse;
+}
+.marquee-row:hover .marquee-row__track {
+  animation-play-state: paused;
+}
+
+/* Vertical marquee columns (reviews) */
+@keyframes marquee-y {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+.marquee-col__track {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  animation: marquee-y linear infinite;
+}
+.marquee-col__track--reverse {
+  animation-direction: reverse;
+}
+.marquee-col:hover .marquee-col__track {
+  animation-play-state: paused;
+}
+.marquee-mask-y {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000 14%,
+    #000 86%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000 14%,
+    #000 86%,
+    transparent
+  );
+}
+
+/* Hide scrollbars on horizontal scrollers but keep keyboard/scroll access */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

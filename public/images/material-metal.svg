@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="960" viewBox="0 0 720 960" role="img" aria-label="Metal Roofing">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#FFFFFF" stroke-opacity="0.06" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="720" height="960" fill="#16181B"/>
+  <rect width="720" height="960" fill="url(#grid)"/>
+  <g fill="#FFFFFF" font-family="Inter, system-ui, sans-serif" text-anchor="middle">
+    <text x="360" y="470" font-size="51.42857142857143" font-weight="700" letter-spacing="0.04em">METAL ROOFING</text>
+    <text x="360" y="506" font-size="25.714285714285715" fill-opacity="0.6">materials</text>
+  </g>
+</svg>
