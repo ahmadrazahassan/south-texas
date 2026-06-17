@@ -98,7 +98,7 @@ export default function WhyUs() {
             </div>
 
             {/* The single rectangular card: text column · gap · photo column */}
-            <div className="mt-8 grid items-stretch gap-7 rounded-[14px] border border-ink/12 bg-white/60 p-7 shadow-[0_8px_30px_-18px_rgba(0,0,0,0.25)] backdrop-blur-xl sm:gap-10 sm:p-10 lg:grid-cols-2">
+            <div className="mt-8 grid items-stretch gap-7 rounded-[24px] border border-white/15 bg-ink/80 p-7 shadow-[0_30px_70px_-30px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.18)] ring-1 ring-inset ring-white/5 backdrop-blur-2xl sm:gap-10 sm:p-10 lg:grid-cols-2">
               {/* Text column */}
               <div className="relative flex min-h-[300px] items-center lg:min-h-[480px]">
                 <AnimatePresence initial={false}>
@@ -115,13 +115,13 @@ export default function WhyUs() {
                     </motion.span>
                     <motion.h3
                       variants={textChild}
-                      className="mt-6 text-3xl font-semibold tracking-tight text-ink sm:text-[2.5rem] sm:leading-[1.1]"
+                      className="mt-6 text-3xl font-semibold tracking-tight text-white sm:text-[2.5rem] sm:leading-[1.1]"
                     >
                       {item.title}
                     </motion.h3>
                     <motion.p
                       variants={textChild}
-                      className="mt-5 max-w-md text-lg leading-relaxed text-muted"
+                      className="mt-5 max-w-md text-lg leading-relaxed text-white/65"
                     >
                       {item.copy}
                     </motion.p>
