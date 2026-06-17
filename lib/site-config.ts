@@ -451,8 +451,11 @@ export const contact = {
   heading: "Get your free roofing estimate",
   subtext:
     "Tell us about your project and our team will get back to you within 24 hours with honest advice and a clear plan.",
+  cardHeading: "Got a roof to protect? Let's team up.",
+  cardSubtext: "Tell us a little about your home and what you have in mind.",
   formTitle: "Send us a message",
-  formCta: "Send Message",
+  formCta: "Let's get started",
+  helpLabel: "How can we help?",
   /** Google Maps embed for the business address (no API key required). */
   mapEmbedSrc:
     "https://www.google.com/maps?q=2606+Business+Hwy+83+E,+Weslaco,+TX+78596&output=embed",

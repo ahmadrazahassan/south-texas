@@ -176,6 +176,34 @@ body {
     background-color: var(--color-white);
     box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-yellow) 16%, transparent);
   }
+
+  /* Boxed field for the coloured contact panel — full width, clear border */
+  .field-onbrand {
+    width: 100%;
+    border: 1.5px solid color-mix(in srgb, var(--color-ink) 30%, transparent);
+    border-radius: 12px;
+    background-color: var(--color-white);
+    padding: 15px 18px;
+    font-size: 16px;
+    color: var(--color-ink);
+    outline: none;
+    transition:
+      border-color 0.18s ease,
+      box-shadow 0.18s ease;
+  }
+
+  .field-onbrand::placeholder {
+    color: color-mix(in srgb, var(--color-muted) 80%, transparent);
+  }
+
+  .field-onbrand:hover {
+    border-color: color-mix(in srgb, var(--color-ink) 50%, transparent);
+  }
+
+  .field-onbrand:focus {
+    border-color: var(--color-ink);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-ink) 12%, transparent);
+  }
 }
 
 /* -------------------------------------------------------------------------- */

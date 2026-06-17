@@ -1,5 +1,36 @@
-import { MapPin, Phone, Mail, Clock, Facebook, Instagram, Linkedin } from "lucide-react";
+import {
+  MessageCircle,
+  MapPin,
+  Phone,
+  Facebook,
+  Instagram,
+  Linkedin,
+} from "lucide-react";
 import { business } from "@/lib/site-config";
+
+const blocks = [
+  {
+    icon: MessageCircle,
+    title: "Chat to us",
+    desc: "Our friendly team is here to help.",
+    value: business.email,
+    href: `mailto:${business.email}`,
+  },
+  {
+    icon: MapPin,
+    title: "Visit us",
+    desc: "Come say hello at our office.",
+    value: business.address.full,
+    href: `https://www.google.com/maps?q=${encodeURIComponent(business.address.full)}`,
+  },
+  {
+    icon: Phone,
+    title: "Call us",
+    desc: business.hours,
+    value: business.phone,
+    href: business.phoneHref,
+  },
+];
 
 const socials = [
   { icon: Facebook, href: business.social.facebook, label: "Facebook" },
@@ -7,87 +38,36 @@ const socials = [
   { icon: Linkedin, href: business.social.linkedin, label: "LinkedIn" },
 ];
 
-const details = [
-  {
-    icon: Phone,
-    label: "Call us",
-    value: business.phone,
-    href: business.phoneHref,
-  },
-  {
-    icon: Mail,
-    label: "Email us",
-    value: business.email,
-    href: `mailto:${business.email}`,
-  },
-  {
-    icon: MapPin,
-    label: "Visit us",
-    value: business.address.full,
-    href: `https://www.google.com/maps?q=${encodeURIComponent(business.address.full)}`,
-  },
-  { icon: Clock, label: "Hours", value: business.hours, href: undefined },
-];
-
-/**
- * Contact details list (phone, email, address, hours) + socials.
- * Theme-agnostic: pass `tone="dark"` when placed on a dark background.
- */
-export default function ContactInfo({ tone = "light" }: { tone?: "light" | "dark" }) {
-  const dark = tone === "dark";
-
+/** Contact details (chat / visit / call) + socials for the contact panel. */
+export default function ContactInfo() {
   return (
-    <div>
-      <ul className="flex flex-col gap-5">
-        {details.map(({ icon: Icon, label, value, href }) => {
-          const content = (
-            <>
-              <span
-                className={`flex h-11 w-11 flex-none items-center justify-center rounded-xl ${
-                  dark ? "bg-white/10 text-yellow" : "bg-yellow/10 text-yellow"
-                }`}
-              >
-                <Icon size={20} />
-              </span>
-              <span>
-                <span
-                  className={`block text-xs font-medium uppercase tracking-wide ${
-                    dark ? "text-white/50" : "text-muted"
-                  }`}
-                >
-                  {label}
-                </span>
-                <span
-                  className={`mt-0.5 block text-[15px] font-medium ${
-                    dark ? "text-white" : "text-ink"
-                  }`}
-                >
-                  {value}
-                </span>
-              </span>
-            </>
-          );
-
+    <div className="flex h-full flex-col">
+      <ul className="flex flex-col gap-8">
+        {blocks.map(({ icon: Icon, title, desc, value, href }) => {
+          const external = href.startsWith("http");
           return (
-            <li key={label}>
-              {href ? (
+            <li key={title} className="flex gap-4">
+              <span className="flex h-11 w-11 flex-none items-center justify-center rounded-xl border-2 border-ink">
+                <Icon size={20} className="text-ink" strokeWidth={2} />
+              </span>
+              <div>
+                <h3 className="text-base font-semibold text-ink">{title}</h3>
+                <p className="mt-0.5 text-[15px] text-muted">{desc}</p>
                 <a
                   href={href}
-                  target={href.startsWith("http") ? "_blank" : undefined}
-                  rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
-                  className="flex items-start gap-4 transition-opacity hover:opacity-80"
+                  target={external ? "_blank" : undefined}
+                  rel={external ? "noopener noreferrer" : undefined}
+                  className="mt-2 inline-block text-[15px] font-semibold text-ink underline-offset-4 hover:underline"
                 >
-                  {content}
+                  {value}
                 </a>
-              ) : (
-                <div className="flex items-start gap-4">{content}</div>
-              )}
+              </div>
             </li>
           );
         })}
       </ul>
 
-      <div className="mt-8 flex gap-3">
+      <div className="mt-10 flex gap-4 lg:mt-auto lg:pt-10">
         {socials.map(({ icon: Icon, href, label }) => (
           <a
             key={label}
@@ -95,11 +75,7 @@ export default function ContactInfo({ tone = "light" }: { tone?: "light" | "dark
             aria-label={label}
             target="_blank"
             rel="noopener noreferrer"
-            className={`inline-flex h-10 w-10 items-center justify-center rounded-full border transition-colors ${
-              dark
-                ? "border-white/20 text-white/80 hover:border-yellow hover:text-yellow"
-                : "border-ink/15 text-ink/70 hover:border-yellow hover:text-yellow"
-            }`}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink/15 text-ink/70 transition-colors hover:border-ink hover:text-ink"
           >
             <Icon size={18} />
           </a>

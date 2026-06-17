@@ -1,53 +1,47 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ArrowRight } from "lucide-react";
-import { contact, serviceTypeOptions, locationOptions } from "@/lib/site-config";
+import { Check } from "lucide-react";
+import { contact, serviceTypeOptions } from "@/lib/site-config";
 
 type FormState = {
   fullName: string;
   email: string;
-  phone: string;
-  serviceType: string;
-  location: string;
   message: string;
+  services: string[];
 };
 
 const initialState: FormState = {
   fullName: "",
   email: "",
-  phone: "",
-  serviceType: "",
-  location: "",
   message: "",
+  services: [],
 };
 
-const fieldClass = "field";
-
-/** Matches real field heights so SSR → hydration stays identical, sidestepping
- *  autofill-extension hydration mismatches (same approach as RequestForm). */
+/** Matches the real field heights so SSR → hydration stays identical, which
+ *  sidesteps autofill-extension hydration mismatches (inputs render only after
+ *  mount). */
 function FieldsSkeleton() {
   return (
-    <div className="mt-6 grid gap-4" aria-hidden="true">
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div className="h-[50px] rounded-xl bg-ink/[0.06]" />
-        <div className="h-[50px] rounded-xl bg-ink/[0.06]" />
+    <div className="mt-8 flex flex-col gap-6" aria-hidden="true">
+      <div className="h-[54px] rounded-xl border-[1.5px] border-ink/25 bg-white" />
+      <div className="h-[54px] rounded-xl border-[1.5px] border-ink/25 bg-white" />
+      <div className="h-[88px] rounded-xl border-[1.5px] border-ink/25 bg-white" />
+      <div className="mt-2 grid grid-cols-1 gap-x-6 gap-y-3.5 sm:grid-cols-2">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <div key={i} className="h-5 rounded bg-ink/10" />
+        ))}
       </div>
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div className="h-[50px] rounded-xl bg-ink/[0.06]" />
-        <div className="h-[50px] rounded-xl bg-ink/[0.06]" />
-      </div>
-      <div className="h-[50px] rounded-xl bg-ink/[0.06]" />
-      <div className="h-[120px] rounded-xl bg-ink/[0.06]" />
-      <div className="h-[50px] rounded-lg bg-ink/10" />
+      <div className="mt-2 h-[54px] rounded-xl bg-ink/15" />
     </div>
   );
 }
 
 /**
- * Full contact form — name, email, phone, service type, location, message.
- * Local state only; wire `handleSubmit` to a real endpoint when the backend
- * is ready. Shared by the homepage Contact section and the /contact page.
+ * Contact form for the coloured panel — underline inputs, a "How can we help?"
+ * checkbox group, and a dark submit button. Local state only; wire
+ * `handleSubmit` to a real endpoint when the backend is ready. Shared by the
+ * homepage Contact section and the /contact page.
  */
 export default function ContactForm() {
   const [form, setForm] = useState<FormState>(initialState);
@@ -56,8 +50,16 @@ export default function ContactForm() {
 
   useEffect(() => setMounted(true), []);
 
-  const update = (key: keyof FormState) => (value: string) =>
+  const update = (key: "fullName" | "email" | "message") => (value: string) =>
     setForm((prev) => ({ ...prev, [key]: value }));
+
+  const toggleService = (opt: string) =>
+    setForm((prev) => ({
+      ...prev,
+      services: prev.services.includes(opt)
+        ? prev.services.filter((s) => s !== opt)
+        : [...prev.services, opt],
+    }));
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,120 +73,85 @@ export default function ContactForm() {
   if (!mounted) return <FieldsSkeleton />;
 
   return (
-    <form onSubmit={handleSubmit} className="mt-6 grid gap-4" aria-label={contact.formTitle}>
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div>
-          <label htmlFor="cf-name" className="sr-only">
-            Full name
-          </label>
-          <input
-            id="cf-name"
-            type="text"
-            required
-            placeholder="Full name"
-            className={fieldClass}
-            value={form.fullName}
-            onChange={(e) => update("fullName")(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="cf-email" className="sr-only">
-            Email address
-          </label>
-          <input
-            id="cf-email"
-            type="email"
-            required
-            placeholder="Email address"
-            className={fieldClass}
-            value={form.email}
-            onChange={(e) => update("email")(e.target.value)}
-          />
-        </div>
-      </div>
-
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div>
-          <label htmlFor="cf-phone" className="sr-only">
-            Phone number
-          </label>
-          <input
-            id="cf-phone"
-            type="tel"
-            placeholder="Phone number"
-            className={fieldClass}
-            value={form.phone}
-            onChange={(e) => update("phone")(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="cf-service" className="sr-only">
-            Service type
-          </label>
-          <select
-            id="cf-service"
-            required
-            className={`${fieldClass} ${form.serviceType ? "text-ink" : "text-muted/70"}`}
-            value={form.serviceType}
-            onChange={(e) => update("serviceType")(e.target.value)}
-          >
-            <option value="" disabled>
-              Service type
-            </option>
-            {serviceTypeOptions.map((opt) => (
-              <option key={opt} value={opt} className="text-ink">
-                {opt}
-              </option>
-            ))}
-          </select>
-        </div>
+    <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-6" aria-label={contact.formTitle}>
+      <div>
+        <label htmlFor="cf-name" className="sr-only">
+          Your name
+        </label>
+        <input
+          id="cf-name"
+          type="text"
+          required
+          placeholder="Your name"
+          className="field-onbrand"
+          value={form.fullName}
+          onChange={(e) => update("fullName")(e.target.value)}
+        />
       </div>
 
       <div>
-        <label htmlFor="cf-location" className="sr-only">
-          Location
+        <label htmlFor="cf-email" className="sr-only">
+          Email address
         </label>
-        <select
-          id="cf-location"
+        <input
+          id="cf-email"
+          type="email"
           required
-          className={`${fieldClass} ${form.location ? "text-ink" : "text-muted/70"}`}
-          value={form.location}
-          onChange={(e) => update("location")(e.target.value)}
-        >
-          <option value="" disabled>
-            Select location
-          </option>
-          {locationOptions.map((opt) => (
-            <option key={opt} value={opt} className="text-ink">
-              {opt}
-            </option>
-          ))}
-        </select>
+          placeholder="you@email.com"
+          className="field-onbrand"
+          value={form.email}
+          onChange={(e) => update("email")(e.target.value)}
+        />
       </div>
 
       <div>
         <label htmlFor="cf-message" className="sr-only">
-          How can we help?
+          Tell us about the project
         </label>
         <textarea
           id="cf-message"
           required
-          rows={4}
-          placeholder="Tell us about your project…"
-          className={`${fieldClass} resize-none`}
+          rows={3}
+          placeholder="Tell us a little about the project…"
+          className="field-onbrand resize-none"
           value={form.message}
           onChange={(e) => update("message")(e.target.value)}
         />
       </div>
 
-      <button type="submit" className="btn-primary w-full">
+      <fieldset className="mt-1">
+        <legend className="text-sm font-semibold text-ink">{contact.helpLabel}</legend>
+        <div className="mt-4 grid grid-cols-1 gap-x-6 gap-y-3.5 sm:grid-cols-2">
+          {serviceTypeOptions.map((opt) => (
+            <label
+              key={opt}
+              className="flex cursor-pointer items-center gap-2.5 text-[15px] text-ink"
+            >
+              <input
+                type="checkbox"
+                className="peer sr-only"
+                checked={form.services.includes(opt)}
+                onChange={() => toggleService(opt)}
+              />
+              <span className="flex h-5 w-5 flex-none items-center justify-center rounded-md border-2 border-ink bg-transparent transition-colors peer-checked:bg-ink peer-checked:[&>svg]:opacity-100 peer-focus-visible:ring-2 peer-focus-visible:ring-ink/40 peer-focus-visible:ring-offset-1">
+                <Check size={13} strokeWidth={3.5} className="text-white opacity-0 transition-opacity" />
+              </span>
+              {opt}
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      <button
+        type="submit"
+        className="mt-2 w-full rounded-xl bg-ink px-6 py-4 text-[15px] font-semibold text-white transition-colors hover:bg-black"
+      >
         {contact.formCta}
-        <ArrowRight size={18} />
       </button>
 
       <p
         aria-live="polite"
-        className={`text-center text-sm font-medium text-green-700 transition-opacity ${
+        className={`text-center text-sm font-medium text-ink transition-opacity ${
           submitted ? "opacity-100" : "opacity-0"
         }`}
       >
